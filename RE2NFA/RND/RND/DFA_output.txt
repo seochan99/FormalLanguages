@@ -1,12 +1,14 @@
-StateSet = { q030, q020, q021 }
-TerminalSet = { 0, 1 }
+StateSet = { q008, q012, q010, q009 }
+TerminalSet = { a, b }
 DeltaFunctions = {
-(q030, 0) = { q030,q020,q021 }
-(q030, 1) = { q030,q020,q021 }
-(q020, 0) = { q030,q020,q021 }
-(q020, 1) = { q030,q020,q021 }
-(q021, 0) = { q030,q020,q021 }
-(q021, 1) = { q030,q020,q021 }
+(q008, a) = { q008,q012,q010,q009 }
+(q008, b) = { q008,q012,q010,q009 }
+(q012, a) = { q008,q012,q010,q009 }
+(q012, b) = { q008,q012,q010,q009 }
+(q010, a) = { q008,q012,q010,q009 }
+(q010, b) = { q008,q012,q010,q009 }
+(q009, a) = { q008,q012,q010,q009 }
+(q009, b) = { q008,q012,q010,q009 }
 }
-StartState = q020
-FinalStateSet = { q033 }
+StartState = q010
+FinalStateSet = { q021 }

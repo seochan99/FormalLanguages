@@ -61,14 +61,28 @@ public class DFA {
         this.finalStateSet = finalStateSet;
     }
 
+    /**
+     * 상태를 상태 집합에 추가합니다.
+     * @param state 추가할 상태
+     */
     public void addState(String state) {
         stateSet.add(state);
     }
 
+    /**
+     * 터미널을 터미널 집합에 추가합니다.
+     * @param terminal 추가할 터미널
+     */
     public void addTerminal(Character terminal) {
         terminalSet.add(terminal);
     }
 
+    /**
+     * 델타 함수에 상태 전이를 추가합니다.
+     * @param currentState 현재 상태
+     * @param inputSymbol 입력 심볼
+     * @param nextState 다음 상태
+     */
     public void addDeltaFunction(String currentState, Character inputSymbol, String nextState) {
         if (!deltaFunctions.containsKey(currentState)) {
             deltaFunctions.put(currentState, new HashMap<>());
@@ -76,11 +90,19 @@ public class DFA {
         deltaFunctions.get(currentState).put(inputSymbol, nextState);
     }
 
+    /**
+     * 최종 상태를 최종 상태 집합에 추가합니다.
+     * @param finalState 최종 상태
+     */
     public void addFinalState(String finalState) {
         finalStateSet.add(finalState);
     }
 
 
+    /**
+     * DFA를 파일로 저장합니다.
+     * 파일명: DFA_output.txt
+     */
     public void saveDFAToFile() {
         try {
             FileWriter writer = new FileWriter("DFA_output.txt");
@@ -114,5 +136,4 @@ public class DFA {
             e.printStackTrace();
         }
     }
-
 }

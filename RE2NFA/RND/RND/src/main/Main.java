@@ -1,17 +1,15 @@
 package main;
 
 import java.util.Scanner;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
+import dfa.DFAToRDFAConverter;
 import dfa.ENFAToDFAConverter;
+import dfa.RDFA;
 import e_nfa.ENFA;
 import e_nfa.ENFACreator;
 import re.RE;
 import dfa.DFA;
-import mfa.MFA;
-import nfa.NFA;
+
 
 
 public class Main {
@@ -54,21 +52,13 @@ public class Main {
         // 변환된 DFA를 파일로 저장합니다.
         dfa.saveDFAToFile();
 
-        // 변환된 DFA를 출력합니다.
-        System.out.println(dfa);
+        /*--------------------Convert DFA To Reduced DFA --------------------*/
+        // DFA를 Reduced DFA로 변환합니다.
+        RDFA rdfa = DFAToRDFAConverter.convertToRDFA(dfa);
 
+        // 변환된 Reduced DFA를 파일로 저장합니다.
+         rdfa.saveRDFAToFile();
 
-//        /*--------------------Convert ε-NFA to DFA --------------------*/
-//        DFA dfa = new DFA(nfa.getPair(),nfa.getLetter());  // NFA로부터 DFA 객체를 생성합니다.
-//        dfa.createDFA();  // DFA를 생성합니다.
-//        dfa.printDFA();  // 생성된 DFA를 출력합니다.
-//
-//
-//        /*--------------------Convert DFA To MFA --------------------*/
-//        MFA mfa = new MFA(dfa.getDFA(),dfa.getEndState(),dfa.getLetter());  // DFA로부터 MFA 객체를 생성합니다.
-//        mfa.minimize();  // MFA를 최소화합니다.
-//        mfa.merge();  // 상태들을 병합합니다.
-//        mfa.printMFA();  // 최소화된 MFA를 출력합니다.
 
 
 
