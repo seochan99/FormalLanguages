@@ -1,0 +1,12 @@
+StateSet = { q030, q020, q021 }
+TerminalSet = { 0, 1 }
+DeltaFunctions = {
+(q030, 0) = { q030,q020,q021 }
+(q030, 1) = { q030,q020,q021 }
+(q020, 0) = { q030,q020,q021 }
+(q020, 1) = { q030,q020,q021 }
+(q021, 0) = { q030,q020,q021 }
+(q021, 1) = { q030,q020,q021 }
+}
+StartState = q020
+FinalStateSet = { q033 }

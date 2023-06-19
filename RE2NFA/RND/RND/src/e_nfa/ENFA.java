@@ -46,6 +46,50 @@ public class ENFA {
         this.startState = startState;
     }
 
+    public String getInitialState() {
+        return startState;
+    }
+    // 시작 상태로부터 도달 가능한 모든 상태를 반환합니다.
+    public Set<String> getReachableStates() {
+        Set<String> reachableStates = new HashSet<>();
+
+        Stack<String> stack = new Stack<>();
+        stack.push(startState);
+
+        while (!stack.isEmpty()) {
+            String currentState = stack.pop();
+            reachableStates.add(currentState);
+
+            Map<Character, Set<String>> transitions = deltaFunctions.getOrDefault(currentState, new HashMap<>());
+            for (Set<String> nextStates : transitions.values()) {
+                for (String nextState : nextStates) {
+                    if (!reachableStates.contains(nextState)) {
+                        stack.push(nextState);
+                    }
+                }
+            }
+        }
+
+        return reachableStates;
+    }
+
+    // 주어진 상태 집합에서 모든 상태를 큐에 추가합니다.
+    private void offerAll(Set<String> states, Queue<String> queue) {
+        for (String state : states) {
+            queue.offer(state);
+        }
+    }
+
+    // 기존 상태 집합에 없는 새로운 상태를 추가합니다.
+    private void addNewStates(Set<String> states, Set<String> existingStates) {
+        for (String state : states) {
+            if (!existingStates.contains(state)) {
+                existingStates.add(state);
+            }
+        }
+    }
+
+
     // 최종 상태를 추가합니다.
     public void addFinalState(String finalState) {
         finalStateSet.add(finalState);
@@ -69,6 +113,42 @@ public class ENFA {
     // 시작 상태를 반환합니다.
     public String getStartState() {
         return startState;
+    }
+
+    public Set<String> getEpsilonClosure(String state) {
+        Set<String> epsilonClosure = new HashSet<>();
+        epsilonClosure.add(state);
+
+        Stack<String> stack = new Stack<>();
+        stack.push(state);
+
+        while (!stack.isEmpty()) {
+            String currentState = stack.pop();
+            Map<Character, Set<String>> transitions = deltaFunctions.getOrDefault(currentState, new HashMap<>());
+            Set<String> epsilonTransitions = transitions.getOrDefault(EPSILON, new HashSet<>());
+
+            for (String nextState : epsilonTransitions) {
+                if (!epsilonClosure.contains(nextState)) {
+                    epsilonClosure.add(nextState);
+                    stack.push(nextState);
+                }
+            }
+        }
+
+        return epsilonClosure;
+    }
+
+
+    public Set<String> getMove(Set<String> states, char inputSymbol) {
+        Set<String> moveStates = new HashSet<>();
+
+        for (String currentState : states) {
+            Map<Character, Set<String>> transitions = deltaFunctions.getOrDefault(currentState, new HashMap<>());
+            Set<String> nextStates = transitions.getOrDefault(inputSymbol, new HashSet<>());
+            moveStates.addAll(nextStates);
+        }
+
+        return moveStates;
     }
 
     // 최종 상태 집합을 반환합니다.
